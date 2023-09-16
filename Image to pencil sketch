@@ -1,0 +1,51 @@
+import cv2
+import matplotlib.pyplot as plt
+
+# Load the original image
+image = cv2.imread('new.jpg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# Display the original image
+plt.figure(figsize=(7, 7))
+plt.imshow(image)
+plt.title("Original Image")
+plt.show()
+
+# Convert the image to grayscale
+image_gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+
+# Display the grayscale image
+plt.figure(figsize=(7, 7))
+plt.imshow(image_gray, cmap="gray")
+plt.title("Grayscale Image")
+plt.show()
+
+# Invert the grayscale image
+image_invert = cv2.bitwise_not(image_gray)
+
+# Display the inverted image
+plt.figure(figsize=(7, 7))
+plt.imshow(image_invert, cmap="gray")
+plt.title("Inverted Image")
+plt.axis("off")
+plt.show()
+
+# Apply Gaussian blur to the inverted image
+image_smooth = cv2.GaussianBlur(image_invert, (23, 23), sigmaX=0, sigmaY=0)
+
+# Display the blurred image
+plt.figure(figsize=(7, 7))
+plt.imshow(image_smooth, cmap="gray")
+plt.title("Blurred Image")
+plt.axis("off")
+plt.show()
+
+# Create the final sketch by dividing the grayscale image by the smoothed image
+final_image = cv2.divide(image_gray, 255 - image_smooth, scale=255)
+
+# Display the final sketch
+plt.figure(figsize=(7, 7))
+plt.imshow(final_image, cmap="gray")
+plt.title("Final Sketch Image")
+plt.axis("off")
+plt.show()
